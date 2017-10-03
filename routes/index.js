@@ -88,7 +88,7 @@ router.post('/editProfile',(req,res)=>{
                                           if (error) {
                                               console.log(error.message);
                                           } else {
-                                                res.render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
+                                                res.render('profile',{image:result2[0].image,name:result2[0].name,email:result2[0].email});
                                           }
                                         });
 
