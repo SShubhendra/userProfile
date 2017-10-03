@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Profile</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+   <br><br>
+<div class="container-fluid well span6">
+	<div class="row-fluid">
+        <div class="span2" >
+		    <img src="http://localhost:3000/images/upload_images/<%= image %>" alt="User Pic <%= image %>" class="img-circle">
+        </div>
+        
+        <div class="span8">
+            <h3 id="welcome">Welcome: <%= name %></h3>
+            <h6>Email:  <%= email %></h6>
+            <h6>Location: Colombia</h6>
+            <h6>Old: 1 Year</h6>
+            <h6><a href="#">More... </a></h6>
+        </div>
+        
+        <div class="span2">
+            <div class="btn-group">
+                
+                <a class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                    Action 
+                    <span class="icon-cog icon-white"></span><span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/login/editProfile/<%= name %>"><span class="icon-wrench"></span> Modify </a></li>
+                    <li><a href="/"><span class="icon-trash"></span> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+</div>
+</div>
+
+<script >
+   
+    </script>
+  </body>
+</html>

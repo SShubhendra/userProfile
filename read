@@ -1,0 +1,5 @@
+run db.sql first
+
+npm install
+ 
+ npm start
