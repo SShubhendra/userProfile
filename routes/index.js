@@ -4,6 +4,7 @@ var connection=require('../utils/mysql');
 var crypto=require('../utils/hash-salt');
 var _ = require('lodash');
 var multer  = require('multer');
+var adminProfile=require('./admin');
 
 //multer
 var storage = multer.diskStorage({
@@ -27,16 +28,28 @@ router.get('/signup', function(req, res, next) {
    res.render('signup');
 });
 
-
-
+//post routes
 router.post('/login/editProfile',function(req,res){
   console.log(req.body);
-  res.render('editProfile',{name:req.body.name});
-  
-})
+
+      if(req.body.delete){
+              connection.query(`DELETE  FROM  users WHERE  name LIKE '${req.body.delete}';`,function(error,results) {
+                if (error) {
+                       console.log(error.message);
+                      } else {
+                    //console.log(results.insertId);    
+                        res.redirect('/'); 
+                      }
+                });
+      }else 
+          {
+            res.render('editProfile',{name:req.body.modify});
+          }       
+        
+      })
 
 router.post('/signup',upload.any(),(req,res)=>{
-  console.log(req.files);
+ // console.log(req.files);
        if (!req.files)
         return res.status(400).send('No files were uploaded.');
         var file = req.files[0].filename;
@@ -48,7 +61,7 @@ router.post('/signup',upload.any(),(req,res)=>{
       };
 
      Object.assign(user, crypto.createHash(user.password));
-     console.log(user);
+    // console.log(user);
      connection.query('INSERT INTO users SET ?', user,function(error,results) {
         if (error) {
             console.log(error.message);
@@ -79,7 +92,7 @@ router.post('/editProfile',(req,res)=>{
                 if (error) {
                     console.log(error.message);
                 } else{
-                        connection.query(`UPDATE  users SET ?`,body,function(error,result1) {
+                        connection.query(`UPDATE  users SET  ?  WHERE name like '${req.body.name}';`,body,function(error,result1) {
                              if (error) {
                                        console.log(error.message);
                                } else{
@@ -108,11 +121,17 @@ router.post('/login',(req,res)=>{
         } else {
           if(result.length>0){
             if(crypto.validate(result[0].password,result[0].salt,req.body.psw)){
-              console.log('login success'); 
-             // res.cookie('access_token',result[0].token, {httpOnly: true}).status(301).render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
+              console.log('password success'); 
+              if(req.body.uname=='admin'){
+                      
+                adminProfile(res);
+                
+              }else {
+
+                 // res.cookie('access_token',result[0].token, {httpOnly: true}).status(301).render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
               res.render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
-              
-              console.log('login success');
+
+              }            
              
           
             }else{
