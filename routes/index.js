@@ -3,7 +3,6 @@ var router = express.Router();
 var connection=require('../utils/mysql');
 var crypto=require('../utils/hash-salt');
 var _ = require('lodash');
-var jwt= require("jsonwebtoken");
 var multer  = require('multer');
 
 //multer
@@ -28,13 +27,13 @@ router.get('/signup', function(req, res, next) {
    res.render('signup');
 });
 
-router.get('/login/editProfile/:id', function(req, res, next) {
-      
-       res.render('editProfile',{name:req.params.id});
-});
 
 
-
+router.post('/login/editProfile',function(req,res){
+  console.log(req.body);
+  res.render('editProfile',{name:req.body.name});
+  
+})
 
 router.post('/signup',upload.any(),(req,res)=>{
   console.log(req.files);
@@ -49,7 +48,7 @@ router.post('/signup',upload.any(),(req,res)=>{
       };
 
      Object.assign(user, crypto.createHash(user.password));
-     
+     console.log(user);
      connection.query('INSERT INTO users SET ?', user,function(error,results) {
         if (error) {
             console.log(error.message);
@@ -109,9 +108,12 @@ router.post('/login',(req,res)=>{
         } else {
           if(result.length>0){
             if(crypto.validate(result[0].password,result[0].salt,req.body.psw)){
-                 
-                console.log('login success');
+              console.log('login success'); 
+             // res.cookie('access_token',result[0].token, {httpOnly: true}).status(301).render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
               res.render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
+              
+              console.log('login success');
+             
           
             }else{
               console.log('password did not match');

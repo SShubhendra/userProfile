@@ -60,8 +60,7 @@ button {
 <form action="/editProfile" style="border:1px solid #ccc" method="post">
   <div class="container">
      
-     <label><b>Name </b></label>
-    <input type="text"  placeholder="User Name can't be changed" name="name" value="<%= name %>" >
+    
 
     <label><b>Email</b></label>
     <input type="text" placeholder="Change Email" name="email" >
@@ -71,7 +70,7 @@ button {
 
     <div class="clearfix">
       <button type="button" onclick="location.href='/login/editProfile/<%= name %>';" class="cancelbtn"  >Cancel</button>
-      <button type="submit" class="signupbtn">Update</button><br />
+      <button type="submit" class="signupbtn" name="name" value="<%= name %>">Update</button><br />
       
     </div>
   </div>
