@@ -43,7 +43,7 @@ function adminProfile(res){
                         
                                         <div class="span2">                                  
                                             <form id="Modify" method="post" action="/login/editProfile"  >
-                                            <button id="button_1" value="${item.name}" name="modify">Modify</button>
+                                            <button id="button_1" value="${item.name}" name="name">Modify</button>
                                             </form>
                                             <form id="delete" method="post" action="/login/editProfile"  >
                                             <button id="button_1" value="${item.name}" name="delete">Delete</button>

@@ -43,7 +43,7 @@ router.post('/login/editProfile',function(req,res){
                 });
       }else 
           {
-            res.render('editProfile',{name:req.body.modify});
+            res.render('editProfile',{name:req.body.name});
           }       
         
       })
