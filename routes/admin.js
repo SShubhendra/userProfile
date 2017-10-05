@@ -8,8 +8,10 @@ function adminProfile(res){
         console.log(error.message);
     } else {
       //  console.log(results);    
-        console.log(results.length);  
-        
+       // console.log(results.length);  
+       if(results.length == 0){
+      return  res.redirect('/'); 
+    } 
         var html= `<!DOCTYPE html>
         <html>
           <head>
@@ -82,10 +84,12 @@ function adminProfile(res){
                                     url: "/login/editProfile",
                                     data:  $(this).serialize(),
                                     success: function(response) {
+
+                                        alert(response);
                                         // callback code here
-                                       /* $("#myLink").click(function() {
+                                        $("#myLink").click(function() {
                                             window.location.reload();
-                                        });*/
+                                        });
                                     }
                                     })
                 

@@ -3,3 +3,16 @@ run db.sql first
 npm install
  
  npm start
+
+
+//admin users name must be admin
+
+ //currently mysql using promises by using  "bluebird"  module
+
+      routes/indexwp.js n admin.js and utils/mysql.js  not used
+
+ 
+ //for without promises
+ change name in routes/indexwp.js to index.js and index.js to something else
+   
+   promisedb.js n current index.js won,t we used in that case

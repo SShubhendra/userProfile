@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var connection= require('./utils/mysql');
+//var connection= require('./utils/mysql');
 
 
 process.env.SECRET_KEY="thisismysecretkey";
