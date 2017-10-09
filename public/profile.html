@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Profile</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+   <br><br>
+<div class="container-fluid well span6">
+	<div class="row-fluid">
+        <div class="span2" >
+		    <img id="image" src="" alt="User Pic " class="img-circle">
+        </div>
+        
+        <div class="span8">
+            <h3 id="welcome"></h3>
+            <h6 id="email"></h6>
+            <h6 id="id"></h6>
+            
+            <h6><a href="#">More... </a></h6>
+        </div>
+        
+        <div class="span2">
+           
+        </div>
+        <form id="myform" method="post" action="/login/editProfile"  >
+                <button id="button_1" value="" name="name">Modify</button>
+          </form>
+          <a href="/logout"><span class="icon-trash"></span> Logout</a>
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+             
+        $(document).ready(function() {
+
+              $.ajax({
+                  url:'/profile',
+                  method:'get',
+                  contentType:'application/json',
+                  complete:function(response){
+                         //console.log(response);
+                     var res= JSON.parse(response.responseText);
+                    
+                     $('#welcome').html(`Welcome ${res.name}`);
+                     $('#email').html(`Email : ${res.email}`);
+                     $('#id').html(`User Id: ${res.id}`);
+                     $('#image').attr('src',`http://localhost:3000/images/upload_images/${res.image}`);
+                     $('#button_1').attr('value',`${res.name}`)
+                  }
+              })
+
+
+         
+            $("#myform").submit(function() {
+                e.preventDefault();
+                $.ajax({
+                type: "POST",
+                url: "/login/editProfile",
+                data:  $(this).serialize(),
+                success: function(response) {
+                    // callback code here
+                    
+                }
+                })
+
+            })
+            })
+           
+      
+    </script>
+  </body>
+</html>

@@ -65,7 +65,7 @@ function adminProfile(res){
                 <link rel='stylesheet' href='/stylesheets/style.css' />
               </head>
               <body>
-              <a href="#" id="myLink">Admin</a> <br />  <a href="/"><span class="icon-trash"></span> Logout</a>
+              <a href="#" id="myLink">Admin</a> <br />  <a href="/logout"><span class="icon-trash"></span> Logout</a>
                 `;
                 
                         for (var i=0 ;i<results.length;i++) {
@@ -98,7 +98,7 @@ function adminProfile(res){
                           };
             html +=`  
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-                        <script>
+                        <script >
                                 
                             $(document).ready(function() {
                             
@@ -118,23 +118,23 @@ function adminProfile(res){
     
                                     $("#delete").submit(function() {
                                         e.preventDefault();
-                                        $.ajax({
-                                        type: "POST",
-                                        url: "/login/editProfile",
-                                        data:  $(this).serialize(),
-                                        success: function(response) {
-    
-                                            alert(response);
-                                            // callback code here
-                                            $("#myLink").click(function() {
-                                                window.location.reload();
-                                            });
-                                        }
-                                        })
+                                            $.ajax({
+                                            type: "POST",
+                                            url: "/login/editProfile",
+                                            data:  $(this).serialize(),
+                                            success: function(response) {
+        
+                                                        alert(response);
+                                                        // callback code here
+                                                        $("#myLink").click(function() {
+                                                            window.location.reload();
+                                                        })
+                                                    }
+                                            })
                     
-                                })
-                                })
-                            
+                                    })
+
+                             })                         
                         
                         </script>
                         

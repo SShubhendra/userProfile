@@ -5,6 +5,8 @@ var _ = require('lodash');
 var multer  = require('multer');
 var queries = require('../utils/queries');
 
+
+
 //multer
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -25,6 +27,25 @@ router.get('/', function(req, res, next) {
 
 router.get('/signup', function(req, res, next) {
    res.render('signup');
+});
+
+router.get('/logout', function(req, res, next) {
+  req.session.destroy();
+   res.redirect('/');
+});
+
+
+router.get('/profile', function(req, res, next) {
+
+   var profile={
+     name:req.session.uname,
+     email:req.session.email,
+     id:req.session.Id,
+     image:req.session.image
+   }
+   console.log(profile);
+
+   res.send(JSON.stringify(profile));
 });
 
 //post routes
@@ -65,12 +86,16 @@ router.post('/signup',upload.any(),(req,res)=>{
 
 router.post('/editProfile',(req,res)=>{
        console.log(req.body);
+
+      // res.send(req.body);
        var  body=_.pick(req.body,["email","password"]);      
         var name=''+req.body.name;
         queries.updateData(name,body).then((result2)=>{
           queries.readData(name).then((result2)=>{
-            
-            res.render('profile',{image:result2[0].image,name:result2[0].name,email:result2[0].email});
+             
+           // session.email=result2[0].email;
+            res.send('User updated');
+           // res.render('profile',{image:result2[0].image,name:result2[0].name,email:result2[0].email});
           });        
         // console.log(result2);
         });     
@@ -88,8 +113,14 @@ router.post('/login',(req,res)=>{
                      queries.adminProfile(res);            
                     }else 
                           {
+                            req.session.email=result[0].email;
+                            req.session.uname=result[0].name;
+                            req.session.Id=result[0].user_id;
+                            req.session.image=result[0].image;
+                          //  req.session.storage = new Date();
+                            res.redirect('/profile.html');
                             // res.cookie('access_token',result[0].token, {httpOnly: true}).status(301).render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
-                          res.render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
+                         // res.render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
                           }      
               }else
                     {

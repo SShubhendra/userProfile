@@ -57,27 +57,50 @@ button {
 
 <h2>Edit Profile</h2>
 
-<form action="/editProfile" style="border:1px solid #ccc" method="post">
+<form id="login" action="/editProfile" style="border:1px solid #ccc" method="post">
   <div class="container">
      
     
 
     <label><b>Email</b></label>
-    <input type="text" placeholder="Change Email" name="email" >
+    <input id="email" type="text" placeholder="Change Email" name="email" >
 
     <label><b>Password</b></label>
-    <input type="password" placeholder="Change Password" name="password" >
+    <input id="pass" type="password" placeholder="Change Password" name="password" >
 
     <div class="clearfix">
       
       <button  type="submit"  name="name" value="<%= name %>">Update</button><br />
       <a href = "javascript:history.back()">Back to previous page</a>
+    
       
     </div>
   </div>
 </form>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script> 
+
+
+            $(document).ready(function  () {
+                    $("#login").on("submit",function  (e) {
+                        e.preventDefault();
+                        var dt={
+                            name:'<%= name %>',
+                            email:$('#email').val(),
+                            password:$('#pass').val()
+                        }
+                        $.post({
+                            url: "/editProfile",
+                            data:dt,
+                            success: function( data ) {
+                            console.log(data);
+                            $("body").append(`<p> ${data}</p>`);
+
+                        }
+                           
+                        });
+                    })
+                });
 
      
 
