@@ -68,15 +68,15 @@ span.psw {
 
 <h2>Login Form</h2>
 
-<form action="/login" method="post">
+<form id="login" action="/login" method="post">
   
 
   <div class="container">
     <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+    <input id="name" type="text" placeholder="Enter Username" name="uname" required>
 
     <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+    <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
         
     <button type="submit">Login</button>
     <input type="checkbox" checked="checked"> Remember me
@@ -87,6 +87,40 @@ span.psw {
     <span class="psw" > <a  href="/signup"  >Signup</a></span>
     
 </form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
 
+        $(document).ready(function  () {
+            $("#login").on("submit",function  (e) {
+                        e.preventDefault();
+                        var dt={
+                            
+                           uname:$('#name').val(),
+                            psw:$('#psw').val()
+                        }
+                        $.post({
+                            url: "/login",
+                            type:'post',
+                            data:dt,
+                            success: function( data ) {
+                            console.log(data);
+                            if(data.status==false){
+                             return   $("body").append(`<p> ${data.message}</p>`);
+                            }else if(data.status==true && data.name=='admin'){
+                                window.location.href="/admin";
+                            }else{
+                                window.location.href="/profile.html";
+                            }
+                            
+                                                        
+
+                        }
+                           
+                        });
+                    })
+            });
+
+
+</script>
 </body>
 </html>

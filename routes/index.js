@@ -29,9 +29,20 @@ router.get('/signup', function(req, res, next) {
    res.render('signup');
 });
 
+router.get('/admin', function(req, res, next) {
+  queries.adminProfile(res);
+});
+
 router.get('/logout', function(req, res, next) {
-  req.session.destroy();
-   res.redirect('/');
+ 
+  req.session.destroy(function(err) {
+    if(err) {
+        console.log(err);
+    } else {
+        res.redirect('/');
+    }
+});
+  
 });
 
 
@@ -102,30 +113,42 @@ router.post('/editProfile',(req,res)=>{
        
 })
 
-router.post('/login',(req,res)=>{       
+router.post('/login',(req,res)=>{ 
+  console.log(req.body) ;
+   
        var name=''+req.body.uname;
        queries.readData(name).then((result)=>{
        // console.log(result);
           if(result.length>0){
               if(crypto.validate(result[0].password,result[0].salt,req.body.psw)){
                 console.log('password success'); 
-                    if(req.body.uname=='admin'){                  
-                     queries.adminProfile(res);            
+                req.session.email=result[0].email;
+                req.session.uname=result[0].name;
+                req.session.Id=result[0].user_id;
+                req.session.image=result[0].image;
+              //  req.session.storage = new Date();
+                    if(req.body.uname=='admin'){  
+                       
+                      res.send({
+                        status:true,
+                        name:'admin',
+                        url:'/admin'
+                      });               
+                    // queries.adminProfile(res);            
                     }else 
                           {
-                            req.session.email=result[0].email;
-                            req.session.uname=result[0].name;
-                            req.session.Id=result[0].user_id;
-                            req.session.image=result[0].image;
-                          //  req.session.storage = new Date();
-                            res.redirect('/profile.html');
+                            
+                            res.send({
+                              status:true,
+                              url:'/'
+                            });
                             // res.cookie('access_token',result[0].token, {httpOnly: true}).status(301).render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
                          // res.render('profile',{image:result[0].image,name:result[0].name,email:result[0].email});
                           }      
               }else
                     {
                       console.log('password did not match');
-                      res.json({
+                      res.send({
                           status:false,                  
                           message:"Email and password does not match"
                         });
@@ -133,7 +156,7 @@ router.post('/login',(req,res)=>{
               }else
                   {
                       console.log('register first');
-                      res.json({
+                      res.send({
                         status:false,
                       message:"User does not exits"
                       });
